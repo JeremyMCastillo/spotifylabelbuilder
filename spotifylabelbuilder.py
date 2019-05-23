@@ -2,6 +2,7 @@ import sys
 import spotipy
 import spotipy.util as util
 import configparser
+import os
 
 scope = 'user-read-recently-played user-top-read user-library-modify user-library-read playlist-modify-public playlist-read-collaborative user-read-email user-read-birthdate user-read-private user-read-playback-state user-modify-playback-state user-read-currently-playing app-remote-control streaming user-follow-read user-follow-modify'
 
@@ -28,6 +29,8 @@ if token:
     album = sp.album(sys.argv[1])
     print(album)
     year = album['release_date'].split('-')[0]
+    if not os.path.exists(musicDir + album['artists'][0]['name'] + "\\" + album['name'] + " (" + str(year) + ")"):
+        os.makedirs(musicDir + album['artists'][0]['name'] + "\\" + album['name'] + " (" + str(year) + ")")
     file = open(musicDir + album['artists'][0]['name'] + "\\" + album['name'] + " (" + str(year) + ")\\labels.txt", "w+")
     file.write(fileContents)
     file.close()
